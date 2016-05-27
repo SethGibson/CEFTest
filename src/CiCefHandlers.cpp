@@ -54,17 +54,44 @@ void CiLoadHandler::OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFram
 }
 #pragma endregion
 
+#pragma region LifeSpan Handler
+CiLifeSpanHandler::CiLifeSpanHandler() :
+	m_BrowserCount(0),
+	m_bIsClosing(false)
+{
+}
 void CiLifeSpanHandler::OnAfterCreated(CefRefPtr<CefBrowser> browser)
 {
 	CEF_REQUIRE_UI_THREAD();
-	mBrowserList.push_back(browser);
+	if (!m_Browser.get()) {
+		m_Browser = browser;
+		m_BrowserId = browser->GetIdentifier();
+	}
+
+	m_BrowserCount++;
 }
 
 bool CiLifeSpanHandler::DoClose(CefRefPtr<CefBrowser> browser)
 {
+	CEF_REQUIRE_UI_THREAD();
+
+	if (m_BrowserId == browser->GetIdentifier())
+		m_bIsClosing = true;
+
 	return false;
 }
 
 void CiLifeSpanHandler::OnBeforeClose(CefRefPtr<CefBrowser> browser)
 {
+	CEF_REQUIRE_UI_THREAD();
+
+	if (m_BrowserId == browser->GetIdentifier())
+		m_Browser = NULL;
+
+	if (--m_BrowserCount == 0)
+		CefQuitMessageLoop();
 }
+
+CefBrowserRef CiLifeSpanHandler::GetBrowser(){ return m_Browser; }
+bool CiLifeSpanHandler::IsClosing(){ return m_bIsClosing; }
+#pragma endregion

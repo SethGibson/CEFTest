@@ -4,6 +4,7 @@ CiBrowserClient::CiBrowserClient(int pWidth, int pHeight)
 {
 	mLoadHandler = CiLoadHandlerRef(new CiLoadHandler());
 	mRenderHandler = CiRenderHandlerRef(new CiRenderHandler(pWidth, pHeight));
+	mLifeSpanHandler = CiLifeSpanHandlerRef(new CiLifeSpanHandler());
 }
 
 CefRefPtr<CefLoadHandler> CiBrowserClient::GetLoadHandler()
@@ -24,10 +25,4 @@ CefRefPtr<CefLifeSpanHandler> CiBrowserClient::GetLifeSpanHandler()
 const uint8_t* CiBrowserClient::GetPixelBuffer()
 {
 	return mRenderHandler->GetPixelBuffer();
-}
-
-void CiBrowserClient::Cleanup()
-{
-	mLoadHandler->Release();
-	mRenderHandler->Release();
 }

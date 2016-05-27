@@ -113,12 +113,14 @@ xcopy /e /q /y c:\dev\lib\cef_2526_x64\Resources\*.* $(OutDir)</Command>
     <ClCompile Include="..\src\CEFTestApp.cpp" />
     <ClCompile Include="..\src\CiCefClient.cpp" />
     <ClCompile Include="..\src\CiCefHandlers.cpp" />
+    <ClCompile Include="..\src\CiGHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\CEFTestApp.h" />
     <ClInclude Include="..\include\CiCefClient.h" />
     <ClInclude Include="..\include\CiCefForward.h" />
     <ClInclude Include="..\include\CiCefHandlers.h" />
+    <ClInclude Include="..\include\CiGHandler.h" />
     <ClInclude Include="..\include\Resources.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

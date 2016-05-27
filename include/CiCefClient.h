@@ -11,7 +11,6 @@ public:
 	CefRefPtr<CefRenderHandler>		GetRenderHandler()  override;
 	CefRefPtr<CefLifeSpanHandler>	GetLifeSpanHandler() override;
 	const uint8_t* GetPixelBuffer();
-	void Cleanup();
 
 	CefHostRef	BrowserHost;
 

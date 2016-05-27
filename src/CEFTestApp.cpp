@@ -40,7 +40,7 @@ void CEFTestApp::setup()
 
 	mClient = new CiBrowserClient(kViewSize.x, kViewSize.y);
 	CefBrowserHost::CreateBrowser(wi, mClient, "http://youtube.com/", bs, nullptr);
-	App::get()->getSignalCleanup().connect(bind(&CEFTestApp::shutdownCEF, this));
+	getWindow()->getSignalClose().connect(bind(&CEFTestApp::shutdownCEF, this));
 }
 
 void CEFTestApp::mouseDown( MouseEvent event )
@@ -71,12 +71,16 @@ void CEFTestApp::draw()
 
 void CEFTestApp::shutdownCEF()
 {
-	CEF_REQUIRE_UI_THREAD();
-	CefQuitMessageLoop(); //<--- DO NOT CALL IN SINGLE THREADED MODE
-	//mBrowser->GetHost()->CloseBrowser(true);
-	mClient->Cleanup();
-	mClient->Release();
-	CefShutdown();
+	CEF_REQUIRE_UI_THREAD();/*
+	auto handler = dynamic_cast<CiLifeSpanHandlerRef>(mClient->GetLifeSpanHandler());
+	if (handler.get() &&!handler->IsClosing()) {
+		auto browser = handler->GetBrowser();
+		if (browser.get()) {
+			browser->GetHost()->CloseBrowser(false);
+			return;
+		}
+	}(/
+
 }
 
 CINDER_APP(CEFTestApp, RendererGl,

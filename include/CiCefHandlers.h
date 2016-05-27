@@ -41,15 +41,21 @@ private:
 #pragma region LifeSpan Handler
 class CiLifeSpanHandler : public CefLifeSpanHandler {
 public:
+	CiLifeSpanHandler();
 	void OnAfterCreated(CefRefPtr<CefBrowser> browser) override;
 	bool DoClose(CefRefPtr<CefBrowser> browser) override;
 	void OnBeforeClose(CefRefPtr<CefBrowser> browser) override;
 
+	CefBrowserRef GetBrowser();
+	bool IsClosing();
+
 	IMPLEMENT_REFCOUNTING(CiLifeSpanHandler);
 
 private:
-	typedef std::list<CefRefPtr<CefBrowser> > BrowserList;
-	BrowserList mBrowserList;
+	CefBrowserRef m_Browser;
+	int m_BrowserId;
+	int m_BrowserCount;
+	bool m_bIsClosing;
 
 };
 #pragma endregion
