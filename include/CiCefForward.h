@@ -8,11 +8,7 @@ typedef CefRefPtr<CefBrowserHost>	CefHostRef;
 typedef CefRefPtr<CefBrowser>		CefBrowserRef;
 
 class CiBrowserClient;
-class CiRenderHandler;
-class CiLoadHandler;
-class CiLifeSpanHandler;
+class CiGHandler;
 
-typedef CefRefPtr<CiBrowserClient>		CiClientRef;
-typedef CefRefPtr<CiRenderHandler>		CiRenderHandlerRef;
-typedef CefRefPtr<CiLoadHandler>		CiLoadHandlerRef;
-typedef CefRefPtr<CiLifeSpanHandler>	CiLifeSpanHandlerRef;
+typedef CefRefPtr<CiBrowserClient>	CiClientRef;
+typedef CefRefPtr<CiGHandler>		CiHandlerRef;

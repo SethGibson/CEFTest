@@ -27,9 +27,6 @@
     <ClCompile Include="..\src\CiCefClient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\CiCefHandlers.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\CiGHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -42,9 +39,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\CiCefClient.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\CiCefHandlers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\CiCefForward.h">

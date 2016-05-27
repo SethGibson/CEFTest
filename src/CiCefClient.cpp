@@ -1,28 +1,26 @@
 #include "CiCefClient.h"
 
-CiBrowserClient::CiBrowserClient(int pWidth, int pHeight)
+CiBrowserClient::CiBrowserClient(CiHandlerRef pHandler) :
+	mHandler(pHandler)
 {
-	mLoadHandler = CiLoadHandlerRef(new CiLoadHandler());
-	mRenderHandler = CiRenderHandlerRef(new CiRenderHandler(pWidth, pHeight));
-	mLifeSpanHandler = CiLifeSpanHandlerRef(new CiLifeSpanHandler());
 }
 
 CefRefPtr<CefLoadHandler> CiBrowserClient::GetLoadHandler()
 {
-	return mLoadHandler;
+	return mHandler;
 }
 
 CefRefPtr<CefRenderHandler>	CiBrowserClient::GetRenderHandler()
 {
-	return mRenderHandler;
+	return mHandler;
 }
 
 CefRefPtr<CefLifeSpanHandler> CiBrowserClient::GetLifeSpanHandler()
 {
-	return mLifeSpanHandler;
+	return mHandler;
 }
 
 const uint8_t* CiBrowserClient::GetPixelBuffer()
 {
-	return mRenderHandler->GetPixelBuffer();
+	return mHandler->GetPixelBuffer();
 }

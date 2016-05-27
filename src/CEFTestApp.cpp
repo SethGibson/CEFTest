@@ -1,3 +1,4 @@
+#include "cinder/Log.h"
 #include "CEFTestApp.h"
 
 const ivec2 kViewSize(1280, 720);
@@ -37,10 +38,13 @@ void CEFTestApp::setup()
 	
 	auto wh = (HWND)getWindow()->getNative();
 	wi.SetAsWindowless(wh, false);
-
-	mClient = new CiBrowserClient(kViewSize.x, kViewSize.y);
+	
+	mG_Handler = CiHandlerRef(new CiGHandler(kViewSize.x, kViewSize.y));
+	mClient = new CiBrowserClient(mG_Handler);
 	CefBrowserHost::CreateBrowser(wi, mClient, "http://youtube.com/", bs, nullptr);
-	getWindow()->getSignalClose().connect(bind(&CEFTestApp::shutdownCEF, this));
+	
+	getWindow()->getSignalClose().connect(bind(&CEFTestApp::closeBrowser, this));
+	App::get()->getSignalCleanup().connect(bind(&CEFTestApp::shutdown, this));
 }
 
 void CEFTestApp::mouseDown( MouseEvent event )
@@ -69,18 +73,19 @@ void CEFTestApp::draw()
 	gl::drawCube(vec3(), vec3(1));
 }
 
-void CEFTestApp::shutdownCEF()
+void CEFTestApp::closeBrowser()
 {
-	CEF_REQUIRE_UI_THREAD();/*
-	auto handler = dynamic_cast<CiLifeSpanHandlerRef>(mClient->GetLifeSpanHandler());
-	if (handler.get() &&!handler->IsClosing()) {
-		auto browser = handler->GetBrowser();
+	if (mG_Handler.get() &&!mG_Handler->IsClosing()) {
+		auto browser = mG_Handler->GetBrowser();
 		if (browser.get()) {
 			browser->GetHost()->CloseBrowser(false);
-			return;
 		}
-	}(/
+	}
+}
 
+void CEFTestApp::shutdown()
+{
+	CefShutdown();
 }
 
 CINDER_APP(CEFTestApp, RendererGl,

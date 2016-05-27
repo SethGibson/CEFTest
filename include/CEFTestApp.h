@@ -18,7 +18,8 @@ public:
 	void update() override;
 	void draw() override;
 
-	void shutdownCEF();
+	void closeBrowser();
+	void shutdown();
 
 private:
 	CameraPersp	mCamera;
@@ -28,4 +29,6 @@ private:
 	CefBrowserRef mBrowser;
 	gl::Texture2dRef mTex;
 	gl::GlslProgRef mShader;
+
+	CiHandlerRef	mG_Handler;
 };

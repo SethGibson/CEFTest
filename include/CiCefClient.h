@@ -1,11 +1,11 @@
 #pragma once
 #include "CiCefForward.h"
-#include "CiCefHandlers.h"
+#include "CiGHandler.h"
 
 class CiBrowserClient : public CefClient
 {
 public:
-	CiBrowserClient(int pWidth, int pHeight);
+	CiBrowserClient(CiHandlerRef pHandler);
 
 	CefRefPtr<CefLoadHandler>		GetLoadHandler() override;
 	CefRefPtr<CefRenderHandler>		GetRenderHandler()  override;
@@ -17,8 +17,6 @@ public:
 	IMPLEMENT_REFCOUNTING(CiBrowserClient);
 
 private:
-	CiLoadHandlerRef		mLoadHandler;
-	CiRenderHandlerRef		mRenderHandler;
-	CiLifeSpanHandlerRef	mLifeSpanHandler;
+	CiHandlerRef mHandler;
 };
 
