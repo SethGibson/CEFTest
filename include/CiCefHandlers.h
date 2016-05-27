@@ -1,4 +1,5 @@
 #pragma once
+#include <list>
 #include "CiCefForward.h"
 
 using namespace std;
@@ -45,6 +46,11 @@ public:
 	void OnBeforeClose(CefRefPtr<CefBrowser> browser) override;
 
 	IMPLEMENT_REFCOUNTING(CiLifeSpanHandler);
+
+private:
+	typedef std::list<CefRefPtr<CefBrowser> > BrowserList;
+	BrowserList mBrowserList;
+
 };
 #pragma endregion
 

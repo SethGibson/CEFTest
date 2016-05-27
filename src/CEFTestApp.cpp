@@ -1,5 +1,4 @@
 #include "CEFTestApp.h"
-#include "include/wrapper/cef_helpers.h"
 
 const ivec2 kViewSize(1280, 720);
 
@@ -15,7 +14,7 @@ void CEFTestApp::setup()
 
 	CefMainArgs args;
 	CefSettings opts;
-	opts.multi_threaded_message_loop = false;
+	opts.multi_threaded_message_loop = true;
 	opts.no_sandbox = true;
 	opts.single_process = false;
 	opts.windowless_rendering_enabled = true;
@@ -26,7 +25,6 @@ void CEFTestApp::setup()
 	int presult = CefExecuteProcess(args, nullptr, nullptr);
 	if (presult >= 0)
 		quit();
-
 	
 	bool iresult = CefInitialize(args, opts, nullptr, nullptr);
 	if (!iresult)
@@ -41,7 +39,7 @@ void CEFTestApp::setup()
 	wi.SetAsWindowless(wh, false);
 
 	mClient = new CiBrowserClient(kViewSize.x, kViewSize.y);
-	mBrowser = CefBrowserHost::CreateBrowserSync(wi, mClient, "http://youtube.com/", bs, nullptr);
+	CefBrowserHost::CreateBrowser(wi, mClient, "http://youtube.com/", bs, nullptr);
 	App::get()->getSignalCleanup().connect(bind(&CEFTestApp::shutdownCEF, this));
 }
 
@@ -51,7 +49,6 @@ void CEFTestApp::mouseDown( MouseEvent event )
 
 void CEFTestApp::update()
 {
-	CefDoMessageLoopWork();
 	const uint8_t* pb = mClient->GetPixelBuffer();
 	if (pb) {
 		Surface8uRef srf = Surface8u::create(const_cast<uint8_t*>(pb), kViewSize.x, kViewSize.y, kViewSize.x * 4, SurfaceChannelOrder::BGRA);
@@ -75,7 +72,8 @@ void CEFTestApp::draw()
 void CEFTestApp::shutdownCEF()
 {
 	CEF_REQUIRE_UI_THREAD();
-	mBrowser->GetHost()->CloseBrowser(true);
+	CefQuitMessageLoop(); //<--- DO NOT CALL IN SINGLE THREADED MODE
+	//mBrowser->GetHost()->CloseBrowser(true);
 	mClient->Cleanup();
 	mClient->Release();
 	CefShutdown();

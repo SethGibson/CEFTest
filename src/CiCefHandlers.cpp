@@ -56,6 +56,8 @@ void CiLoadHandler::OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFram
 
 void CiLifeSpanHandler::OnAfterCreated(CefRefPtr<CefBrowser> browser)
 {
+	CEF_REQUIRE_UI_THREAD();
+	mBrowserList.push_back(browser);
 }
 
 bool CiLifeSpanHandler::DoClose(CefRefPtr<CefBrowser> browser)
