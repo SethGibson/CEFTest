@@ -4,7 +4,7 @@ VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CEFTest", "CEFTest.vcxproj", "{70093D6A-9394-48A4-AA67-B2AFF809DA1B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CiCefClient", "..\CiCefClient\CiCefClient.vcxproj", "{FE6C7CAF-A19D-43CD-891F-1B522A4AABC6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CiCefClient", "..\CiCefClient\vc\CiCefClient.vcxproj", "{FE6C7CAF-A19D-43CD-891F-1B522A4AABC6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
