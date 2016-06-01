@@ -43,8 +43,10 @@ void CEFTestApp::setup()
 	mClient = new CiBrowserClient(mG_Handler);
 	CefBrowserHost::CreateBrowser(wi, mClient, "http://youtube.com/", bs, nullptr);
 	
-	getWindow()->getSignalClose().connect(bind(&CEFTestApp::closeBrowser, this));
+	App::get()->getSignalShouldQuit().connect(bind(&CEFTestApp::closeBrowser, this));
 	App::get()->getSignalCleanup().connect(bind(&CEFTestApp::shutdown, this));
+	//getWindow()->getSignalClose().connect(bind(&CEFTestApp::closeBrowser, this));
+	
 }
 
 void CEFTestApp::mouseDown( MouseEvent event )
@@ -73,14 +75,18 @@ void CEFTestApp::draw()
 	gl::drawCube(vec3(), vec3(1));
 }
 
-void CEFTestApp::closeBrowser()
+bool CEFTestApp::closeBrowser()
 {
+	CEF_REQUIRE_UI_THREAD();
 	if (mG_Handler.get() &&!mG_Handler->IsClosing()) {
 		auto browser = mG_Handler->GetBrowser();
 		if (browser.get()) {
 			browser->GetHost()->CloseBrowser(false);
+			return false;
 		}
 	}
+
+	return true;
 }
 
 void CEFTestApp::shutdown()

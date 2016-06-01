@@ -90,7 +90,7 @@ void CiGHandler::OnBeforeClose(CefRefPtr<CefBrowser> browser)
 		m_Browser = NULL;
 
 	if (--m_BrowserCount == 0)
-		CefQuitMessageLoop();
+		m_bIsClosing = false;
 }
 
 CefBrowserRef CiGHandler::GetBrowser() { return m_Browser; }

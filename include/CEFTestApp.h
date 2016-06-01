@@ -18,7 +18,7 @@ public:
 	void update() override;
 	void draw() override;
 
-	void closeBrowser();
+	bool closeBrowser();
 	void shutdown();
 
 private:
